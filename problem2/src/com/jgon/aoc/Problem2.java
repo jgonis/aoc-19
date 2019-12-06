@@ -1,33 +1,56 @@
 package com.jgon.aoc;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Problem2 {
-    public static void main(String[] args) throws IOException {
-       Problem2 app = new Problem2();
-        InputStream fileFromResources = app.getFileFromResources();
-        if(fileFromResources != null) {
-            InputStreamReader isr = new InputStreamReader(fileFromResources);
-           BufferedReader br = new BufferedReader(isr);
-           String s = br.readLine();
-           while(s != null) {
-               System.out.println(s);
-               s = br.readLine();
-           }
-       }
+	public static void main(String[] args) throws Exception {
+		Problem2 app = new Problem2();
+		InputStream input = app.getClass().getResourceAsStream("/p2input.txt");
+		//System.out.println("Problem 2-1: " + problem2_1(input, List.of(List.of(1, 12), List.of(2,2))));
+		System.out.println("Problem 2-2: " + problem2_2(input));
     }
 
-    // get file from classpath, resources folder
-    private InputStream getFileFromResources() {
-        InputStream resource = this.getClass().getResourceAsStream("/p2input.txt");
+	private static int problem2_2(InputStream input) throws Exception {
+		InputStreamReader isr = new InputStreamReader(input);
+		BufferedReader br = new BufferedReader(isr);
+		String s = br.readLine();
+		List<String> opStream = new ArrayList<>();
+		while (s != null) {
+			opStream.add(s);
+			s = br.readLine();
+		}
+		for(int i = 0; i < 100; i++) {
+			for(int j = 0; j < 100; j++) {
+				ArrayList<String> operations = new ArrayList<>();
+				for(String line : opStream) {
+					operations.add(line);
+				}
+				Problem2_1 p22 = new Problem2_1(operations, List.of(List.of(1, i), List.of(2, j)));
+				int result = p22.runProgram();
+				if(result == 19690720) {
+					return (100 * i) + j;
+				}
+			}
+		}
+		return -1;
+	}
 
-        if (resource == null) {
-            throw new IllegalArgumentException("file is not found!");
-        } else {
-            return resource;
-        }
-    }
+	static int problem2_1(InputStream input, List<List<Integer>> inputs) throws Exception {
+		InputStreamReader isr = new InputStreamReader(input);
+		BufferedReader br = new BufferedReader(isr);
+		String s = br.readLine();
+		List<String> opStream = new ArrayList<>();
+		while (s != null) {
+			opStream.add(s);
+			s = br.readLine();
+		}
+		Problem2_1 p21 = new Problem2_1(opStream, inputs);
+		int result = p21.runProgram();
+		return result;
+	}
 }
