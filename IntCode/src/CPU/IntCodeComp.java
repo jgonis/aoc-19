@@ -1,20 +1,22 @@
 package CPU;
 
-import OpCodes.AddOp;
-import OpCodes.MultOp;
-import OpCodes.OpCode;
+import OpCodes.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class IntCodeComp {
 
-	private final HashMap<Integer, OpCode> _opCodes;
+	private final ArrayList<OpCode> _opCodes;
 
 	public IntCodeComp() {
-		_opCodes = new HashMap<Integer, OpCode>();
-		_opCodes.put(1, new AddOp());
-		_opCodes.put(2, new MultOp());
+		_opCodes = new ArrayList<OpCode>(5);
+		_opCodes.add(null);
+		_opCodes.add(new AddOp());
+		_opCodes.add(new MultOp());
+		_opCodes.add(new InputOp());
+		_opCodes.add(new OutputOp());
 	}
 	public List<Integer> runProgram(List<Integer> program) throws Exception {
 		int programCounter = 0;
