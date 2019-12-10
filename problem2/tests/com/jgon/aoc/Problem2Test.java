@@ -1,5 +1,6 @@
 package com.jgon.aoc;
 
+import com.jgon.containers.Pair;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
@@ -35,8 +36,7 @@ class Problem2Test {
 				.getContextClassLoader()
 				.getResourceAsStream("p2input.txt")) {
 
-			assertEquals(5866663, Problem2.problem2_1(stream, List.of(List.of(1, 12),
-					List.of(2, 2))));
+			assertEquals(5866663, Problem2.problem2_1(stream, List.of(Pair.of(1, 12), Pair.of(2, 2))));
 		}
 	}
 }

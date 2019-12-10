@@ -4,7 +4,7 @@ import java.util.List;
 
 public class OutputOp implements OpCode {
 	@Override
-	public void processOperation(List<Integer> program, int programCounter) {
+	public void processOperation(List<Integer> parameterModes, List<Integer> program, int programCounter) {
 
 	}
 
