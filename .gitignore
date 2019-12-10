@@ -24,3 +24,9 @@ hs_err_pid*
 /out/
 
 .idea/misc.xml
+
+.idea/artifacts/problem2_jar.xml
+
+.idea/artifacts/problem5_jar.xml
+
+.idea/modules.xml
