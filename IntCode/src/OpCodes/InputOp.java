@@ -1,5 +1,7 @@
 package OpCodes;
 
+import IO.InputProvider;
+
 import java.util.List;
 
 public class InputOp implements OpCode {
@@ -10,7 +12,7 @@ public class InputOp implements OpCode {
 	}
 
 	@Override
-	public void processOperation(List<Integer> parameterModes, List<Integer> program, int programCounter) {
+	public void processOperation(List<Integer> parameterModes, List<String> program, int programCounter) {
 
 	}
 

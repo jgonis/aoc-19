@@ -4,7 +4,7 @@ public final class Pair<A, B> {
     private A _first;
     private B _second;
 
-    private Pair() {}
+    public Pair() {}
 
     public Pair(A firstParam, B secondParam) {
         _first = firstParam;
@@ -17,6 +17,14 @@ public final class Pair<A, B> {
 
     public B getSecond() {
         return _second;
+    }
+
+    public void setFirst(A first) {
+        _first = first;
+    }
+
+    public void setSecond(B second) {
+        _second = second;
     }
 
     @Override

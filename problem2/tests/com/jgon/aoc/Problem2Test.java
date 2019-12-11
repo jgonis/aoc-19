@@ -36,7 +36,8 @@ class Problem2Test {
 				.getContextClassLoader()
 				.getResourceAsStream("p2input.txt")) {
 
-			assertEquals(5866663, Problem2.problem2_1(stream, List.of(Pair.of(1, 12), Pair.of(2, 2))));
+			assertEquals(5866663, Problem2.problem2_1(stream, List.of(Pair.of(1, Integer.toString(12)),
+					Pair.of(2, Integer.toString(2)))));
 		}
 	}
 }

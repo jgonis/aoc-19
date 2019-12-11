@@ -1,5 +1,6 @@
 package CPU;
 
+import IO.DefaultInputProvider;
 import OpCodes.*;
 import com.jgon.containers.Pair;
 
@@ -9,6 +10,8 @@ import java.util.List;
 public class IntCodeComp {
 
 	private final ArrayList<OpCode> _opCodes;
+	private final ArrayList<Integer> _parameterModes;
+	private final InstructionDecoder _instructionDecoder = new InstructionDecoder();
 
 	public IntCodeComp() {
 		_opCodes = new ArrayList<OpCode>(5);
@@ -17,12 +20,20 @@ public class IntCodeComp {
 		_opCodes.add(new MultOp());
 		_opCodes.add(new InputOp(new DefaultInputProvider()));
 		_opCodes.add(new OutputOp());
+
+		_parameterModes = new ArrayList<>();
+		for(int i = 0; i < 3; i++) {
+			_parameterModes.add(0);
+		}
 	}
-	public List<Integer> runProgram(List<Integer> program) throws Exception {
+	public List<String> runProgram(List<String> program) throws Exception {
 		int programCounter = 0;
+		Pair<List<Integer>, Integer> decodedInstruction = new Pair<>();
 		while(true) {
-			Integer ins = program.get(programCounter);
-			Pair<List<Integer>, Integer> decodedInstruction = parseInstruction(ins.toString());
+			String ins = program.get(programCounter);
+			_instructionDecoder.parseInstruction(_parameterModes,
+					ins,
+					decodedInstruction);
 			if(decodedInstruction.getSecond() == 99) {
 				break;
 			} else {
@@ -34,24 +45,5 @@ public class IntCodeComp {
 			}
 		}
 		return program;
-	}
-
-	private Pair<List<Integer>,Integer> parseInstruction(String instruction) {
-			List<Integer> parameterModes = new ArrayList<>(3);
-			parameterModes.add(0);
-			parameterModes.add(0);
-			parameterModes.add(0);
-			Integer instructionValue;
-			if(instruction.length() != 1) {
-				int parameterModeIndex = 2;
-				instructionValue = Integer.decode(instruction.substring(instruction.length() - 2));
-				for(int i = (instruction.length() - 3); i >= 0; i--) {
-					parameterModes.set(parameterModeIndex, Character.getNumericValue(instruction.charAt(i)));
-					parameterModeIndex--;
-				}
-			} else {
-				return Pair.of(parameterModes, Integer.decode(instruction));
-			}
-			return Pair.of(parameterModes, instructionValue);
 	}
 }

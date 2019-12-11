@@ -1,4 +1,4 @@
-package OpCodes;
+package IO;
 
 public class DefaultInputProvider implements InputProvider {
     @Override

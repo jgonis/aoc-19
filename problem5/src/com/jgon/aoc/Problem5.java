@@ -1,7 +1,5 @@
 package com.jgon.aoc;
 
-import com.jgon.containers.Pair;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,24 +27,5 @@ public class Problem5 {
         }
         List<String> ops = Arrays.asList(opStream.get(0).split(","));
         return -1;
-    }
-
-    public static Pair<List<Integer>, Integer> parseInstruction(String instruction) {
-        List<Integer> parameterModes = new ArrayList<>(3);
-        parameterModes.add(0);
-        parameterModes.add(0);
-        parameterModes.add(0);
-        Integer instructionValue;
-        if(instruction.length() != 1) {
-            int parameterModeIndex = 2;
-            instructionValue = Integer.decode(instruction.substring(instruction.length() - 2));
-            for(int i = (instruction.length() - 3); i >= 0; i--) {
-                parameterModes.set(parameterModeIndex, Character.getNumericValue(instruction.charAt(i)));
-                parameterModeIndex--;
-            }
-        } else {
-            return Pair.of(parameterModes, Integer.decode(instruction));
-        }
-        return Pair.of(parameterModes, instructionValue);
     }
 }
