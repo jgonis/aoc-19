@@ -21,6 +21,10 @@ public class IntCodeComp {
 		_opCodes.add(new MultOp());
 		_opCodes.add(new InputOp(new DefaultInputProvider()));
 		_opCodes.add(new OutputOp(new DefaultOutputReceiver()));
+		_opCodes.add(new JumpIfTrueOp());
+		_opCodes.add(new JumpIfFalseOp());
+		_opCodes.add(new LessThanOp());
+		_opCodes.add(new EqualsOp());
 
 		_parameterModes = new ArrayList<>();
 		for(int i = 0; i < 3; i++) {
