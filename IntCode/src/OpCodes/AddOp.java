@@ -10,7 +10,7 @@ public class AddOp extends BaseOpCode implements OpCode {
 		int input2 = _retrievers[parameterModes.get(1)].retrieveParameter(program, (programCounter + 2));
 		if(parameterModes.get(2) != 0)
 			throw new IllegalArgumentException();
-		Integer storePosition = _retrievers[1].retrieveParameter(program, (programCounter + 3));
+		int storePosition = _outputRetriever.retrieveParameter(program, (programCounter + 3));
 		program.set(storePosition, Integer.valueOf(input1 + input2).toString());
 	}
 

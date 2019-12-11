@@ -10,4 +10,6 @@ public class BaseOpCode {
             new ImmediateParameterRetriever()
     };
 
+    protected ParameterRetriever _outputRetriever = new ImmediateParameterRetriever();
+
 }

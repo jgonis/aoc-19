@@ -1,5 +1,7 @@
 package com.jgon.aoc;
 
+import CPU.IntCodeComp;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,7 +18,7 @@ public class Problem5 {
         problem5_1(input);
     }
 
-    private static int problem5_1(InputStream input) throws Exception {
+    private static void problem5_1(InputStream input) throws Exception {
         InputStreamReader isr = new InputStreamReader(input);
         BufferedReader br = new BufferedReader(isr);
         String s = br.readLine();
@@ -25,7 +27,8 @@ public class Problem5 {
             opStream.add(s);
             s = br.readLine();
         }
-        List<String> ops = Arrays.asList(opStream.get(0).split(","));
-        return -1;
+        List<String> program = Arrays.asList(opStream.get(0).split(","));
+        IntCodeComp cpu = new IntCodeComp();
+        List<String> result = cpu.runProgram(program);
     }
 }

@@ -1,6 +1,7 @@
 package CPU;
 
 import IO.DefaultInputProvider;
+import IO.DefaultOutputReceiver;
 import OpCodes.*;
 import com.jgon.containers.Pair;
 
@@ -14,12 +15,12 @@ public class IntCodeComp {
 	private final InstructionDecoder _instructionDecoder = new InstructionDecoder();
 
 	public IntCodeComp() {
-		_opCodes = new ArrayList<OpCode>(5);
+		_opCodes = new ArrayList<>(5);
 		_opCodes.add(null);
 		_opCodes.add(new AddOp());
 		_opCodes.add(new MultOp());
 		_opCodes.add(new InputOp(new DefaultInputProvider()));
-		_opCodes.add(new OutputOp());
+		_opCodes.add(new OutputOp(new DefaultOutputReceiver()));
 
 		_parameterModes = new ArrayList<>();
 		for(int i = 0; i < 3; i++) {
