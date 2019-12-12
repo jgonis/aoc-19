@@ -13,7 +13,8 @@ public class Problem5 {
     public static void main(String[] args) throws Exception {
         Problem5 app = new Problem5();
         InputStream input = app.getClass().getResourceAsStream("/p5input.txt");
-        //problem5_1(input);
+        problem5_1(input);
+        System.out.println();
         problem5_2(input);
     }
 
