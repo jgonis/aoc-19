@@ -1,26 +1,26 @@
 package CPU;
 
-import IO.DefaultInputProvider;
-import IO.DefaultOutputReceiver;
+import IO.InputProvider;
+import IO.OutputReceiver;
 import OpCodes.*;
 import com.jgon.containers.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IntCodeComp {
+public class IntCodeComputer {
 
 	private final ArrayList<OpCode> _opCodes;
 	private final ArrayList<Integer> _parameterModes;
 	private final InstructionDecoder _instructionDecoder = new InstructionDecoder();
 
-	public IntCodeComp() {
+	public IntCodeComputer(InputProvider inputProvider, OutputReceiver outputReceiver) {
 		_opCodes = new ArrayList<>(5);
 		_opCodes.add(null);
 		_opCodes.add(new AddOp());
 		_opCodes.add(new MultOp());
-		_opCodes.add(new InputOp(new DefaultInputProvider()));
-		_opCodes.add(new OutputOp(new DefaultOutputReceiver()));
+		_opCodes.add(new InputOp(inputProvider));
+		_opCodes.add(new OutputOp(outputReceiver));
 		_opCodes.add(new JumpIfTrueOp());
 		_opCodes.add(new JumpIfFalseOp());
 		_opCodes.add(new LessThanOp());

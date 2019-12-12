@@ -14,7 +14,8 @@ public class InputOp extends BaseOpCode implements OpCode {
 	@Override
 	public void processOperation(List<Integer> parameterModes, List<String> program, int programCounter) {
 		int storePosition = _outputRetriever.retrieveParameter(program, (programCounter + 1));
-		program.set(storePosition, Integer.toString(_provider.getInput()));
+		String input = Integer.toString(_provider.getInput());
+		program.set(storePosition, input);
 	}
 
 	@Override

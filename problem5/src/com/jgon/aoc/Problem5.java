@@ -1,12 +1,11 @@
 package com.jgon.aoc;
 
-import CPU.IntCodeComp;
+import CPU.IntCodeComputer;
+import IO.DefaultInputProvider;
+import IO.DefaultOutputReceiver;
+import com.jgon.containers.InstructionListFactory;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Problem5 {
@@ -14,21 +13,23 @@ public class Problem5 {
     public static void main(String[] args) throws Exception {
         Problem5 app = new Problem5();
         InputStream input = app.getClass().getResourceAsStream("/p5input.txt");
-        //System.out.println("Problem 2-1: " + problem2_1(input, List.of(List.of(1, 12), List.of(2,2))));
-        problem5_1(input);
+        //problem5_1(input);
+        problem5_2(input);
     }
 
     private static void problem5_1(InputStream input) throws Exception {
-        InputStreamReader isr = new InputStreamReader(input);
-        BufferedReader br = new BufferedReader(isr);
-        String s = br.readLine();
-        List<String> opStream = new ArrayList<>();
-        while (s != null) {
-            opStream.add(s);
-            s = br.readLine();
-        }
-        List<String> program = Arrays.asList(opStream.get(0).split(","));
-        IntCodeComp cpu = new IntCodeComp();
-        List<String> result = cpu.runProgram(program);
+        InstructionListFactory isf = new InstructionListFactory();
+        List<String> instructionList = isf.getInstructionList(input);
+        IntCodeComputer cpu = new IntCodeComputer(new DefaultInputProvider(1),
+                new DefaultOutputReceiver());
+        List<String> result = cpu.runProgram(instructionList);
+    }
+
+    private static void problem5_2(InputStream input) throws Exception {
+        InstructionListFactory isf = new InstructionListFactory();
+        List<String> instructionList = isf.getInstructionList(input);
+        IntCodeComputer cpu = new IntCodeComputer(new DefaultInputProvider(5),
+                new DefaultOutputReceiver());
+        List<String> result = cpu.runProgram(instructionList);
     }
 }
