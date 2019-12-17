@@ -7,6 +7,7 @@ public class JumpIfTrueOp extends BaseOpCode implements OpCode{
 
     @Override
     public void processOperation(List<Integer> parameterModes, List<String> program, int programCounter) {
+//        System.out.println("jump if true");
         int input1 = _retrievers[parameterModes.get(0)].retrieveParameter(program,
                 (programCounter + 1));
         int input2 = _retrievers[parameterModes.get(1)].retrieveParameter(program, (programCounter + 2));

@@ -14,7 +14,7 @@ public class Problem2_1 {
         };
         IntCodeComputer cpu = new IntCodeComputer(new DefaultInputProvider(1),
                 new DefaultOutputReceiver());
-        opStream = cpu.runProgram(opStream);
-        return Integer.parseInt(opStream.get(0));
+        Pair<List<String>, Integer> result = cpu.runProgram(opStream);
+        return Integer.parseInt(result.getFirst().get(0));
     }
 }

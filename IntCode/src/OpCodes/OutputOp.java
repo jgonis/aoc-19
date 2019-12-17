@@ -12,6 +12,7 @@ public class OutputOp extends BaseOpCode implements OpCode {
 	}
 	@Override
 	public void processOperation(List<Integer> parameterModes, List<String> program, int programCounter) {
+		System.out.println("output");
 		int input = _retrievers[parameterModes.get(0)].retrieveParameter(program, (programCounter + 1));
 		_receiver.receiveOutput(input);
 	}

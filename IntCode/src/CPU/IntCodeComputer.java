@@ -7,48 +7,67 @@ import com.jgon.containers.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class IntCodeComputer {
-
 	private final ArrayList<OpCode> _opCodes;
 	private final ArrayList<Integer> _parameterModes;
 	private final InstructionDecoder _instructionDecoder = new InstructionDecoder();
+	private final Map<Integer, OpCode> _haltOpCodes;
+	private int _programCounter;
 
-	public IntCodeComputer(InputProvider inputProvider, OutputReceiver outputReceiver) {
-		_opCodes = new ArrayList<>(5);
-		_opCodes.add(null);
-		_opCodes.add(new AddOp());
-		_opCodes.add(new MultOp());
-		_opCodes.add(new InputOp(inputProvider));
-		_opCodes.add(new OutputOp(outputReceiver));
-		_opCodes.add(new JumpIfTrueOp());
-		_opCodes.add(new JumpIfFalseOp());
-		_opCodes.add(new LessThanOp());
-		_opCodes.add(new EqualsOp());
+	public IntCodeComputer(InputProvider inputProvider,
+	                       OutputReceiver outputReceiver) {
+		this(inputProvider, outputReceiver, Map.of(99, new HaltOpCode()));
+	}
+
+	public IntCodeComputer(InputProvider inputProvider,
+	                       OutputReceiver outputReceiver,
+	                       Map<Integer, OpCode> haltOpCodes) {
+		_haltOpCodes = haltOpCodes;
+		_opCodes = new ArrayList<>(100);
+		for (int i = 0; i < 100; i++) {
+			_opCodes.add(new InvalidOpCode());
+		}
+		_opCodes.set(1, new AddOp());
+		_opCodes.set(2, new MultOp());
+		_opCodes.set(3, new InputOp(inputProvider));
+		_opCodes.set(4, new OutputOp(outputReceiver));
+		_opCodes.set(5, new JumpIfTrueOp());
+		_opCodes.set(6, new JumpIfFalseOp());
+		_opCodes.set(7, new LessThanOp());
+		_opCodes.set(8, new EqualsOp());
+		_opCodes.set(99, new HaltOpCode());
 
 		_parameterModes = new ArrayList<>();
-		for(int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			_parameterModes.add(0);
 		}
 	}
-	public List<String> runProgram(List<String> program) throws Exception {
-		int programCounter = 0;
+
+	public Pair<List<String>, Integer> runProgram(List<String> program) throws Exception {
+		return runProgram(program, 0);
+	}
+
+	public Pair<List<String>, Integer> runProgram(List<String> program, int programCounter) throws Exception {
+		_programCounter = programCounter;
+		int instructionCount = 1;
 		Pair<List<Integer>, Integer> decodedInstruction = new Pair<>();
-		while(true) {
-			String ins = program.get(programCounter);
+		while (true) {
+			String ins = program.get(_programCounter);
 			_instructionDecoder.parseInstruction(_parameterModes,
 					ins,
 					decodedInstruction);
-			if(decodedInstruction.getSecond() == 99) {
-				break;
-			} else {
-				OpCode op = _opCodes.get(decodedInstruction.getSecond());
-				if(op == null)
-					throw new Exception("Found Invalid Op!");
-				op.processOperation(decodedInstruction.getFirst(), program, programCounter);
-				programCounter = op.updateProgramCounter(programCounter);
+//				System.out.println("executing instruction: " + instructionCount + " opcode: " + decodedInstruction.getSecond());
+			OpCode op = _opCodes.get(decodedInstruction.getSecond());
+			if (op == null)
+				throw new Exception("Found Invalid Op!");
+			op.processOperation(decodedInstruction.getFirst(), program, _programCounter);
+			_programCounter = op.updateProgramCounter(_programCounter);
+			if (_haltOpCodes.containsKey(decodedInstruction.getSecond())) {
+				return Pair.of(program, _programCounter);
 			}
+			instructionCount++;
 		}
-		return program;
 	}
 }
