@@ -1,5 +1,6 @@
 package com.jgon.aoc;
 
+import OpCodes.OpCodeNumber;
 import com.jgon.containers.InstructionListFactory;
 import org.junit.jupiter.api.Test;
 
@@ -16,8 +17,7 @@ class Problem7Test {
 		List<String> instructionList = List.of("3", "15", "3", "16", "1002", "16", "10", "16", "1", "16", "15", "15",
 				"4", "15", "99", "0", "0");
 		assertEquals(43210, Problem7.runProgramOnAmplifiers(instructionList,
-				List.of(4, 3, 2, 1, 0),
-				false));
+				List.of(4, 3, 2, 1, 0)));
 	}
 
 	@Test
@@ -25,8 +25,7 @@ class Problem7Test {
 		List<String> instructionList = List.of("3", "23", "3", "24", "1002", "24", "10", "24", "1002", "23", "-1", "23",
 				"101", "5", "23", "23", "1", "24", "23", "23", "4", "23", "99", "0", "0");
         assertEquals(54321, Problem7.runProgramOnAmplifiers(instructionList,
-				List.of(0, 1, 2, 3, 4),
-				false));
+				List.of(0, 1, 2, 3, 4)));
 	}
 
 	@Test
@@ -34,8 +33,7 @@ class Problem7Test {
 		List<String> instructionList = List.of("3", "31", "3", "32", "1002", "32", "10", "32", "1001", "31", "-2", "31", "1007",
 				"31", "0", "33", "1002", "33", "7", "33", "1", "33", "31", "31", "1", "32", "31", "31", "4", "31", "99", "0", "0", "0");
         assertEquals(65210, Problem7.runProgramOnAmplifiers(instructionList,
-				List.of(1, 0, 4, 3, 2),
-				false));
+				List.of(1, 0, 4, 3, 2)));
 	}
 
 	@Test
@@ -50,12 +48,16 @@ class Problem7Test {
 
 	@Test
 	void testProblem7_2input1() throws Exception {
-		List<String> instructionList = List.of("3", "26", "1001", "26", "-4", "26", "3", "27", "1002", "27", "2", "27", "1", "27",
-				"26", "27", "4", "27", "1001", "28", "-1", "28", "1005", "28", "6", "99", "0", "0", "5");
+		List<String> instructionList = List.of(3,26,1001,26,-4,26,3,27,1002,27,2,27,1,27,26,
+				27,4,27,1001,28,-1,28,1005,28,6,99,0,0,5)
+				.stream()
+				.map(Object::toString)
+				.collect(Collectors.toList());
 
-//		assertEquals(139629729, Problem7.runProgramOnAmplifiers(instructionList,
-//				List.of(9, 8, 7, 6, 5),
-//				true));
+		assertEquals(139629729, Problem7.runProgramOnAmplifiers(instructionList,
+				List.of(9, 8, 7, 6, 5),
+				List.of(OpCodeNumber.OUTPUT_OP.toInt()),
+				true));
 	}
 
 	@Test
@@ -67,8 +69,9 @@ class Problem7Test {
 				.map(Object::toString)
 				.collect(Collectors.toList());
 
-//		assertEquals(18216, Problem7.runProgramOnAmplifiers(instructionList,
-//				List.of(9,7,8,5,6),
-//				true));
+		assertEquals(18216, Problem7.runProgramOnAmplifiers(instructionList,
+				List.of(9,7,8,5,6),
+				List.of(OpCodeNumber.OUTPUT_OP.toInt()),
+				true));
 	}
 }

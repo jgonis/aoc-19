@@ -13,18 +13,16 @@ public class IntCodeComputer {
 	private final ArrayList<Integer> _parameterModes;
 	private final InstructionDecoder _instructionDecoder = new InstructionDecoder();
 	private final Set<Integer> _suspendOpCodes;
-	private int _programCounter;
-	private List<String> _program;
+	private int _programCounter = 0;
+	private final List<String> _program;
 
 	public IntCodeComputer(InputProvider inputProvider,
 	                       OutputReceiver outputReceiver,
 	                       List<String> program) {
 		_suspendOpCodes = new HashSet<>();
 		_program = new ArrayList<>(program);
-		_opCodes = new HashMap<>();//new ArrayList<>(100);
-//		for (int i = 0; i < 100; i++) {
-//			_opCodes.add(new InvalidOpCode());
-//		}
+		_opCodes = new HashMap<>();
+
 		_opCodes.put(OpCodeNumber.ADD_OP.toInt(), new AddOp());
 		_opCodes.put(OpCodeNumber.MULT_OP.toInt(), new MultOp());
 		_opCodes.put(OpCodeNumber.INPUT_OP.toInt(), new InputOp(inputProvider));
@@ -51,7 +49,6 @@ public class IntCodeComputer {
 	}
 
 	public void runProgram() throws Exception {
-		_programCounter = 0;
 		boolean run = true;
 		while (run) {
 			Pair<List<Integer>, Integer> decodedInstruction = getDecodedInstruction(_program,
