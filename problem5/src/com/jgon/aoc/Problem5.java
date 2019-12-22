@@ -4,7 +4,6 @@ import CPU.IntCodeComputer;
 import IO.DefaultInputProvider;
 import IO.DefaultOutputReceiver;
 import com.jgon.containers.InstructionListFactory;
-import com.jgon.containers.Pair;
 
 import java.io.InputStream;
 import java.util.List;
@@ -23,15 +22,17 @@ public class Problem5 {
         InstructionListFactory isf = new InstructionListFactory();
         List<String> instructionList = isf.getInstructionList(input);
         IntCodeComputer cpu = new IntCodeComputer(new DefaultInputProvider(1),
-                new DefaultOutputReceiver());
-        Pair<List<String>, Integer> result = cpu.runProgram(instructionList, 0);
+                new DefaultOutputReceiver(),
+                instructionList);
+        cpu.runProgram();
     }
 
     private static void problem5_2(InputStream input) throws Exception {
         InstructionListFactory isf = new InstructionListFactory();
         List<String> instructionList = isf.getInstructionList(input);
         IntCodeComputer cpu = new IntCodeComputer(new DefaultInputProvider(5),
-                new DefaultOutputReceiver());
-        Pair<List<String>, Integer> result = cpu.runProgram(instructionList, 0);
+                new DefaultOutputReceiver(),
+                instructionList);
+        cpu.runProgram();
     }
 }

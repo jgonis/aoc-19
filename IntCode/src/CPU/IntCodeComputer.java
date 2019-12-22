@@ -5,69 +5,95 @@ import IO.OutputReceiver;
 import OpCodes.*;
 import com.jgon.containers.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IntCodeComputer {
-	private final ArrayList<OpCode> _opCodes;
+	public static final int HALT_OP_CODE = 99;
+	private final HashMap<Integer, OpCode> _opCodes;
 	private final ArrayList<Integer> _parameterModes;
 	private final InstructionDecoder _instructionDecoder = new InstructionDecoder();
-	private final Map<Integer, OpCode> _haltOpCodes;
+	private final Set<Integer> _suspendOpCodes;
 	private int _programCounter;
-
-	public IntCodeComputer(InputProvider inputProvider,
-	                       OutputReceiver outputReceiver) {
-		this(inputProvider, outputReceiver, Map.of(99, new HaltOpCode()));
-	}
+	private List<String> _program;
 
 	public IntCodeComputer(InputProvider inputProvider,
 	                       OutputReceiver outputReceiver,
-	                       Map<Integer, OpCode> haltOpCodes) {
-		_haltOpCodes = haltOpCodes;
-		_opCodes = new ArrayList<>(100);
-		for (int i = 0; i < 100; i++) {
-			_opCodes.add(new InvalidOpCode());
-		}
-		_opCodes.set(1, new AddOp());
-		_opCodes.set(2, new MultOp());
-		_opCodes.set(3, new InputOp(inputProvider));
-		_opCodes.set(4, new OutputOp(outputReceiver));
-		_opCodes.set(5, new JumpIfTrueOp());
-		_opCodes.set(6, new JumpIfFalseOp());
-		_opCodes.set(7, new LessThanOp());
-		_opCodes.set(8, new EqualsOp());
-		_opCodes.set(99, new HaltOpCode());
+	                       List<String> program) {
+		_suspendOpCodes = new HashSet<>();
+		_program = new ArrayList<>(program);
+		_opCodes = new HashMap<>();//new ArrayList<>(100);
+//		for (int i = 0; i < 100; i++) {
+//			_opCodes.add(new InvalidOpCode());
+//		}
+		_opCodes.put(OpCodeNumber.ADD_OP.toInt(), new AddOp());
+		_opCodes.put(OpCodeNumber.MULT_OP.toInt(), new MultOp());
+		_opCodes.put(OpCodeNumber.INPUT_OP.toInt(), new InputOp(inputProvider));
+		_opCodes.put(OpCodeNumber.OUTPUT_OP.toInt(), new OutputOp(outputReceiver));
+		_opCodes.put(OpCodeNumber.JUMP_IF_TRUE_OP.toInt(), new JumpIfTrueOp());
+		_opCodes.put(OpCodeNumber.JUMP_IF_FALSE_OP.toInt(), new JumpIfFalseOp());
+		_opCodes.put(OpCodeNumber.LESS_THAN_OP.toInt(), new LessThanOp());
+		_opCodes.put(OpCodeNumber.EQUALS_OP.toInt(), new EqualsOp());
+		_opCodes.put(OpCodeNumber.HALT_OP.toInt(), new HaltOpCode());
 
 		_parameterModes = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			_parameterModes.add(0);
 		}
+
 	}
 
-	public Pair<List<String>, Integer> runProgram(List<String> program) throws Exception {
-		return runProgram(program, 0);
+	public IntCodeComputer(InputProvider inputProvider,
+	                       OutputReceiver outputReceiver,
+	                       List<String> program,
+	                       List<Integer> suspendOpCodes) {
+		this(inputProvider, outputReceiver, program);
+		_suspendOpCodes.addAll(suspendOpCodes);
 	}
 
-	public Pair<List<String>, Integer> runProgram(List<String> program, int programCounter) throws Exception {
-		_programCounter = programCounter;
-		int instructionCount = 1;
-		Pair<List<Integer>, Integer> decodedInstruction = new Pair<>();
-		while (true) {
-			String ins = program.get(_programCounter);
-			_instructionDecoder.parseInstruction(_parameterModes,
-					ins,
-					decodedInstruction);
-//				System.out.println("executing instruction: " + instructionCount + " opcode: " + decodedInstruction.getSecond());
+	public void runProgram() throws Exception {
+		_programCounter = 0;
+		boolean run = true;
+		while (run) {
+			Pair<List<Integer>, Integer> decodedInstruction = getDecodedInstruction(_program,
+					_programCounter,
+					_instructionDecoder,
+					_parameterModes);
 			OpCode op = _opCodes.get(decodedInstruction.getSecond());
-			if (op == null)
-				throw new Exception("Found Invalid Op!");
-			op.processOperation(decodedInstruction.getFirst(), program, _programCounter);
+			op.processOperation(decodedInstruction.getFirst(),
+					_program,
+					_programCounter);
 			_programCounter = op.updateProgramCounter(_programCounter);
-			if (_haltOpCodes.containsKey(decodedInstruction.getSecond())) {
-				return Pair.of(program, _programCounter);
+			if(_suspendOpCodes.contains(decodedInstruction.getSecond())
+					|| decodedInstruction.getSecond() == HALT_OP_CODE) {
+				run = false;
 			}
-			instructionCount++;
 		}
+	}
+
+	private Pair<List<Integer>, Integer> getDecodedInstruction(List<String> program,
+	                         int programCounter,
+	                         InstructionDecoder decoder,
+	                         ArrayList<Integer> parameterModes) {
+		Pair<List<Integer>, Integer> decodedInstruction = new Pair<>();
+		String ins = program.get(programCounter);
+		decoder.parseInstruction(parameterModes,
+				ins,
+				decodedInstruction);
+		return decodedInstruction;
+	}
+
+	public List<String> getProgram() {
+		return _program;
+	}
+
+	public int getProgramCounter() {
+		return _programCounter;
+	}
+
+	public boolean isHalted() {
+		return getDecodedInstruction(_program,
+				_programCounter,
+				_instructionDecoder,
+				_parameterModes).getSecond() == HALT_OP_CODE;
 	}
 }

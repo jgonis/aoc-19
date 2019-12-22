@@ -14,7 +14,7 @@ class IntCodeComputerTest {
     private IntCodeComputer _subject;
     @BeforeEach
     void setUp() {
-        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver);
+        //_subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver);
     }
 
     @Test

@@ -13,8 +13,10 @@ public class Problem2_1 {
             opStream.set(input.getFirst(), input.getSecond());
         };
         IntCodeComputer cpu = new IntCodeComputer(new DefaultInputProvider(1),
-                new DefaultOutputReceiver());
-        Pair<List<String>, Integer> result = cpu.runProgram(opStream);
-        return Integer.parseInt(result.getFirst().get(0));
+                new DefaultOutputReceiver(),
+                opStream);
+        cpu.runProgram();
+        List<String> result = cpu.getProgram();
+        return Integer.parseInt(result.get(0));
     }
 }

@@ -19,7 +19,7 @@ class Problem5Test {
     private IntCodeComputer _subject;
     @BeforeEach
     void setUp() {
-        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver);
+
     }
 
     @Test
@@ -27,7 +27,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(8);
         List<String> instructionList = List.of("3","9","8","9","10","9","4","9","99","-1","8");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1);
     }
 
@@ -36,7 +37,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(7);
         List<String> instructionList = List.of("3","9","8","9","10","9","4","9","99","-1","8");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(0);
     }
 
@@ -45,7 +47,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(7);
         List<String> instructionList = List.of("3","9","7","9","10","9","4","9","99","-1","8");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1);
     }
 
@@ -54,7 +57,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(8);
         List<String> instructionList = List.of("3","9","7","9","10","9","4","9","99","-1","8");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(0);
     }
 
@@ -63,7 +67,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(8);
         List<String> instructionList = List.of("3","3","1108","-1","8","3","4","3","99");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1);
     }
 
@@ -72,7 +77,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(7);
         List<String> instructionList = List.of("3","3","1108","-1","8","3","4","3","99");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(0);
     }
 
@@ -81,7 +87,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(8);
         List<String> instructionList = List.of("3","3","1107","-1","8","3","4","3","99");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(0);
     }
 
@@ -90,7 +97,8 @@ class Problem5Test {
         when(mockInputProvider.getInput()).thenReturn(7);
         List<String> instructionList = List.of("3","3","1107","-1","8","3","4","3","99");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1);
     }
 
@@ -100,7 +108,8 @@ class Problem5Test {
         List<String> instructionList = List.of("3","12","6","12","15","1","13","14","13","4",
                 "13","99","-1","0","1","9");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(0);
     }
 
@@ -110,7 +119,8 @@ class Problem5Test {
         List<String> instructionList = List.of("3","12","6","12","15","1","13","14","13","4",
                 "13","99","-1","0","1","9");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1);
     }
 
@@ -120,7 +130,8 @@ class Problem5Test {
         List<String> instructionList = List.of("3","3","1105","-1","9","1101","0","0","12",
                 "4","12","99","1");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(0);
     }
 
@@ -130,7 +141,8 @@ class Problem5Test {
         List<String> instructionList = List.of("3","3","1105","-1","9","1101","0","0","12",
                 "4","12","99","1");
         ArrayList<String> il = new ArrayList<>(instructionList);
-        _subject.runProgram(il);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, il);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1);
     }
 
@@ -144,7 +156,8 @@ class Problem5Test {
         for(Integer op :instructionList) {
             program.add(op.toString());
         }
-        _subject.runProgram(program);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, program);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(999);
     }
 
@@ -158,7 +171,8 @@ class Problem5Test {
         for(Integer op :instructionList) {
             program.add(op.toString());
         }
-        _subject.runProgram(program);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, program);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1000);
     }
 
@@ -172,7 +186,8 @@ class Problem5Test {
         for(Integer op :instructionList) {
             program.add(op.toString());
         }
-        _subject.runProgram(program);
+        _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, program);
+        _subject.runProgram();
         verify(mockOutputReceiver).receiveOutput(1001);
     }
 
@@ -184,7 +199,8 @@ class Problem5Test {
             InstructionListFactory instructionListFactory = new InstructionListFactory();
             List<String> p5InstructionList = instructionListFactory.getInstructionList(stream);
             when(mockInputProvider.getInput()).thenReturn(1);
-            _subject.runProgram(p5InstructionList);
+            _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, p5InstructionList);
+            _subject.runProgram();
             verify(mockOutputReceiver, times(9)).receiveOutput(0);
             verify(mockOutputReceiver, times(1)).receiveOutput(9654885);
         }
@@ -192,15 +208,16 @@ class Problem5Test {
 
     @Test
     void testProblem52() throws Exception {
-//        try (InputStream stream = Thread.currentThread()
-//                .getContextClassLoader()
-//                .getResourceAsStream("p5input.txt")) {
-//            InstructionListFactory instructionListFactory = new InstructionListFactory();
-//            List<String> p5InstructionList = instructionListFactory.getInstructionList(stream);
-//            when(mockInputProvider.getInput()).thenReturn(1);
-//            _subject.runProgram(p5InstructionList);
-//            verify(mockOutputReceiver, times(9)).receiveOutput(0);
-//            verify(mockOutputReceiver, times(1)).receiveOutput(9654885);
-//        }
+        try (InputStream stream = Thread.currentThread()
+                .getContextClassLoader()
+                .getResourceAsStream("p5input.txt")) {
+            InstructionListFactory instructionListFactory = new InstructionListFactory();
+            List<String> p5InstructionList = instructionListFactory.getInstructionList(stream);
+            when(mockInputProvider.getInput()).thenReturn(1);
+            _subject = new IntCodeComputer(mockInputProvider, mockOutputReceiver, p5InstructionList);
+            _subject.runProgram();
+            verify(mockOutputReceiver, times(9)).receiveOutput(0);
+            verify(mockOutputReceiver, times(1)).receiveOutput(9654885);
+        }
     }
 }
