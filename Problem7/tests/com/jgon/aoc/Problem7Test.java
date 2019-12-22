@@ -74,4 +74,14 @@ class Problem7Test {
 				List.of(OpCodeNumber.OUTPUT_OP.toInt()),
 				true));
 	}
+
+	@Test
+	void testProblem7_2() throws Exception {
+		try (InputStream stream = Thread.currentThread()
+				.getContextClassLoader()
+				.getResourceAsStream("p7input.txt")) {
+			List<String> instructionList = new InstructionListFactory().getInstructionList(stream);
+			assertEquals(61379886, Problem7.problem7_2(instructionList));
+		}
+	}
 }
